@@ -1,0 +1,39 @@
+{
+  "about": "This is a Zest script. For more details about Zest visit https://developer.mozilla.org/en-US/docs/Zest",
+  "zestVersion": "0.3",
+  "title": "Stingray.zst",
+  "description": "The cookie used used by Stingray\u0027s \u0027Transparent Session Affinity\u0027 persistence class.\n \nTransparent session affinity inserts cookies into the HTTP response to track sessions. This is generally the most appropriate method for HTTP and SSL-decrypted HTTPS traffic, because it does not require the nodes to set any cookies in their response.\n \nThe persistence class adds a cookie to the HTTP response that identifies the name of the session persistence class and the chosen back-end node:\n \nSet-Cookie: X-Mapping-hglpomgk\u003d4A3A3083379D97CE4177670FEED6E830; path\u003d/\n \nWhen subsequent requests in that session are processed and the same sesison persistence class is invoked, it inspects the requests to determine if the named cookie exists. If it does, the persistence class inspects the value of the cookie to determine the node to use.",
+  "prefix": "",
+  "type": "Passive",
+  "parameters": {
+    "tokenStart": "{{",
+    "tokenEnd": "}}",
+    "tokens": {},
+    "elementType": "ZestVariables"
+  },
+  "statements": [
+    {
+      "rootExpression": {
+        "regex": "Set-Cookie: X-Mapping",
+        "variableName": "response.header",
+        "caseExact": false,
+        "not": false,
+        "elementType": "ZestExpressionRegex"
+      },
+      "ifStatements": [
+        {
+          "message": "Cache: Stingray",
+          "priority": "INFO",
+          "index": 2,
+          "elementType": "ZestActionFail"
+        }
+      ],
+      "elseStatements": [],
+      "index": 1,
+      "elementType": "ZestConditional"
+    }
+  ],
+  "authentication": [],
+  "index": 0,
+  "elementType": "ZestScript"
+}

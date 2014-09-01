@@ -1,0 +1,71 @@
+{
+  "about": "This is a Zest script. For more details about Zest visit https://developer.mozilla.org/en-US/docs/Zest",
+  "zestVersion": "0.3",
+  "title": "Cloudflare.zst",
+  "description": "Cloudflare presense detected! Update this script using new data!!\n",
+  "prefix": "",
+  "type": "Passive",
+  "parameters": {
+    "tokenStart": "{{",
+    "tokenEnd": "}}",
+    "tokens": {},
+    "elementType": "ZestVariables"
+  },
+  "statements": [
+    {
+      "rootExpression": {
+        "children": [
+          {
+            "regex": "__cfduid",
+            "variableName": "response.header",
+            "caseExact": false,
+            "not": false,
+            "elementType": "ZestExpressionRegex"
+          },
+          {
+            "children": [
+              {
+                "regex": "CF-Cache-Status: ",
+                "variableName": "response.header",
+                "caseExact": false,
+                "not": false,
+                "elementType": "ZestExpressionRegex"
+              },
+              {
+                "children": [
+                  {
+                    "regex": "CF-RAY: ",
+                    "variableName": "response.body",
+                    "caseExact": false,
+                    "not": false,
+                    "elementType": "ZestExpressionRegex"
+                  }
+                ],
+                "not": false,
+                "elementType": "ZestExpressionOr"
+              }
+            ],
+            "not": false,
+            "elementType": "ZestExpressionOr"
+          }
+        ],
+        "not": false,
+        "elementType": "ZestExpressionOr"
+      },
+      "ifStatements": [
+        {
+          "message": "Cache: Cloudflare",
+          "priority": "HIGH",
+          "index": 2,
+          "elementType": "ZestActionFail"
+        }
+      ],
+      "elseStatements": [],
+      "index": 1,
+      "elementType": "ZestConditional"
+    }
+  ],
+  "authentication": [],
+  "index": 0,
+  "elementType": "ZestScript"
+}
